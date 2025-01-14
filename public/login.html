@@ -3,36 +3,84 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - PC Com</title>
+  <title>PCCom</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
   <header>
-    <h1>PC Com</h1>
+    <h1>PCCom</h1>
     <nav>
-      <a href="index.html">Inicio</a>
+      <a href="cart.html">Cesta</a>
+      <a href="login.html">Login</a>
     </nav>
   </header>
+
   <main>
-    <h2>Iniciar Sesión</h2>
-    <form id="login-form">
-      <label for="username">Usuario:</label>
-      <input type="text" id="username" name="username" required>
-      <label for="password">Contraseña:</label>
-      <input type="password" id="password" name="password" required>
-      <button type="submit">Login</button>
-    </form>
+    <!-- Formulario de inicio de sesión -->
+    <div class="form-box" id="login-form-box">
+      <h2>Iniciar sesión</h2>
+      <form id="login-form">
+        <label for="login-email">Correo electrónico:</label>
+        <input type="email" id="login-email" name="email" required>
+
+        <label for="login-password">Contraseña:</label>
+        <input type="password" id="login-password" name="password" required>
+
+        <button type="submit">Iniciar sesión</button>
+      </form>
+      <div class="toggle-link">
+        <p>¿No tienes cuenta? <a href="#" id="show-signup">Crear cuenta</a></p>
+      </div>
+    </div>
+
+    <!-- Formulario de creación de cuenta -->
+    <div class="form-box" id="signup-form-box" style="display: none;">
+      <h2>Crear cuenta</h2>
+      <form id="signup-form">
+        <label for="signup-username">Usuario:</label>
+        <input type="text" id="signup-username" name="username" required>
+
+        <label for="signup-email">Correo electrónico:</label>
+        <input type="email" id="signup-email" name="email" required>
+
+        <label for="signup-password">Contraseña:</label>
+        <input type="password" id="signup-password" name="password" required>
+
+        <label for="signup-confirm-password">Confirmar Contraseña:</label>
+        <input type="password" id="signup-confirm-password" name="confirm-password" required>
+
+        <button type="submit">Crear cuenta</button>
+      </form>
+      <div class="toggle-link">
+        <p>¿Ya tienes cuenta? <a href="#" id="show-login">Iniciar sesión</a></p>
+      </div>
+    </div>
   </main>
+
   <script>
-    document.getElementById("login-form").addEventListener("submit", async (e) => {
+    // Mostrar el formulario de login
+    document.getElementById("show-login").addEventListener("click", function() {
+      document.getElementById("signup-form-box").style.display = "none";
+      document.getElementById("login-form-box").style.display = "block";
+    });
+
+    // Mostrar el formulario de signup
+    document.getElementById("show-signup").addEventListener("click", function() {
+      document.getElementById("login-form-box").style.display = "none";
+      document.getElementById("signup-form-box").style.display = "block";
+    });
+
+    // Iniciar sesión
+    document.getElementById("login-form").addEventListener("submit", async function(e) {
       e.preventDefault();
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
+
+      const email = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
 
       const response = await fetch("/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
       });
 
       if (response.ok) {
@@ -41,6 +89,35 @@
         else window.location.href = "index.html";
       } else {
         alert("Credenciales incorrectas");
+      }
+    });
+
+    // Crear cuenta
+    document.getElementById("signup-form").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const username = document.getElementById("signup-username").value;
+      const email = document.getElementById("signup-email").value;
+      const password = document.getElementById("signup-password").value;
+      const confirmPassword = document.getElementById("signup-confirm-password").value;
+
+      if (password !== confirmPassword) {
+        alert("Las contraseñas no coinciden");
+        return;
+      }
+
+      const response = await fetch("/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email, password }),
+      });
+
+      if (response.ok) {
+        alert("Cuenta creada con éxito. Puedes iniciar sesión.");
+        document.getElementById("signup-form-box").style.display = "none";
+        document.getElementById("login-form-box").style.display = "block";
+      } else {
+        alert("Error al crear la cuenta. Intenta con otro correo electrónico.");
       }
     });
   </script>

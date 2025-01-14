@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,30 +12,47 @@
     <nav>
       <a href="index.html">Inicio</a>
       <a href="login.html">Login</a>
+      <a href="cart.html">Cesta</a>
     </nav>
   </header>
   <main>
-    <h2>Tu Cesta</h2>
+    <h2>Cesta de Compras</h2>
     <div id="cart-items"></div>
-    <p>Total: <span id="total-price">0</span> €</p>
+    <p>Total: <span id="total-price">0 €</span></p>
   </main>
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-      const cartContainer = document.getElementById("cart-items");
-      const totalPriceEl = document.getElementById("total-price");
 
+  <script>
+    // Función para cargar los productos de la cesta
+    async function loadCart() {
+      const response = await fetch("/cart");
+      const cart = await response.json();
+
+      const cartItemsDiv = document.getElementById("cart-items");
       let totalPrice = 0;
 
-      cartItems.forEach((item) => {
-        const div = document.createElement("div");
-        div.textContent = `${item.name} - ${item.price} €`;
-        cartContainer.appendChild(div);
-        totalPrice += item.price;
+      // Mostrar cada producto en la cesta
+      cart.forEach(item => {
+        const itemElement = document.createElement("div");
+        itemElement.classList.add("cart-item");
+        itemElement.innerHTML = `
+          <img src="${item.imageUrl}" alt="${item.name}" />
+          <div>
+            <h4>${item.name}</h4>
+            <p>Cantidad: ${item.quantity}</p>
+            <p>Precio: ${item.price} €</p>
+            <p>Subtotal: ${item.quantity * item.price} €</p>
+          </div>
+        `;
+        cartItemsDiv.appendChild(itemElement);
+        totalPrice += item.quantity * item.price;
       });
 
-      totalPriceEl.textContent = totalPrice;
-    });
+      // Mostrar el total
+      document.getElementById("total-price").textContent = totalPrice + " €";
+    }
+
+    // Cargar la cesta cuando se cargue la página
+    loadCart();
   </script>
 </body>
 </html>
