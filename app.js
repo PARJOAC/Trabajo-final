@@ -7,7 +7,7 @@ const path = require("path");
 
 // Configuración de la aplicación
 const app = express();
-app.use(bodyParser.json());
+app.use(bodyParser.json()); 
 app.use(express.static(path.join(__dirname, "public")));
 
 // Conexión a MongoDB
