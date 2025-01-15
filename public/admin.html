@@ -1,68 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin - PCCom</title>
-    <link rel="stylesheet" href="css/styles.css" />
-    <link rel="stylesheet" href="css/admin.css" />
-    <link rel="stylesheet" href="css/product.css" />
-  </head>
-  <body>
-    <header>
-      <h1>PCCom</h1>
-      <nav>
-        <a href="index.html">Inicio</a>
-        <a href="cart.html">Cesta</a>
-        <a href="login.html">Login</a>
-      </nav>
-    </header>
-    <main>
-      <h2>Panel de Administración</h2>
-      <form id="add-product-form">
-        <label for="name">Nombre:</label>
-        <input type="text" id="name" name="name" required />
-        <label for="price">Precio:</label>
-        <input type="number" id="price" name="price" required />
-        <label for="description">Descripción:</label>
-        <textarea id="description" name="description"></textarea>
-        <label for="imageUrl">URL de la Imagen:</label>
-        <input type="url" id="imageUrl" name="imageUrl" required />
-        <button type="submit">Añadir Producto</button>
-      </form>
-      <h3>Productos Actuales</h3>
-      <div id="product-container"></div>
-    </main>
-    <script src="js/main.js"></script>
-    <script>
-      document
-        .getElementById("add-product-form")
-        .addEventListener("submit", async (e) => {
-          e.preventDefault();
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - PCCom</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/product.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <header>
+    <h1>PCCom</h1>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="login.html">Salir</a>
+    </nav>
+  </header>
+  <main>
+    <h2>Panel de Administración</h2>
+    <form id="add-product-form">
+      <label for="name">Nombre:</label>
+      <input type="text" id="name" name="name" required>
+      <label for="price">Precio:</label>
+      <input type="number" id="price" name="price" required>
+      <label for="description">Descripción:</label>
+      <textarea id="description" name="description"></textarea>
+      <label for="imageUrl">URL de la Imagen:</label>
+      <input type="url" id="imageUrl" name="imageUrl" required>
+      <button type="submit">Añadir Producto</button>
+    </form>
+    <h3>Productos Actuales</h3>
+    <div id="product-container"></div>
+  </main>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const productList = document.getElementById("product-container");
 
-          const name = document.getElementById("name").value;
-          const price = document.getElementById("price").value;
-          const description = document.getElementById("description").value;
-          const imageUrl = document.getElementById("imageUrl").value;
+      // Obtener los productos desde la API
+      const response = await fetch("/api/products");
+      const products = await response.json();
 
-          await fetch("/api/products", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, price, description, imageUrl }),
-          });
+      // Renderizar los productos
+      products.forEach((product) => {
+        const productDiv = document.createElement("div");
+        productDiv.className = "product";
+        productDiv.innerHTML = `
+          <h3>${product.name}</h3>
+          <img src="${product.imageUrl}" alt="${product.name}" style="max-width: 150px; border-radius: 8px; margin: 10px 0;">
+          <p>Precio: ${product.price} €</p>
+          <p>${product.description}</p>
+          <button onclick="deleteProduct('${product._id}')">Eliminar</button>
+        `;
+        productList.appendChild(productDiv);
+      });
+    });
 
-          location.reload();
-        });
+    document.getElementById("add-product-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-      async function deleteProduct(productId) {
-        await fetch(`/api/products/${productId}`, { method: "DELETE" });
-        location.reload();
-      }
+      const name = document.getElementById("name").value;
+      const price = document.getElementById("price").value;
+      const description = document.getElementById("description").value;
+      const imageUrl = document.getElementById("imageUrl").value;
 
-      // Función para añadir productos a la cesta
-      function addToCart(productId) {
-        alert(`Producto con ID ${productId} añadido a la cesta.`);
-      }
-    </script>
-  </body>
+      await fetch("/api/products", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, price, description, imageUrl }),
+      });
+
+      location.reload();
+    });
+
+    async function deleteProduct(productId) {
+      await fetch(`/api/products/${productId}`, { method: "DELETE" });
+      location.reload();
+    }
+  </script>
+</body>
 </html>
