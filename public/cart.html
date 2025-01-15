@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cesta - PCCom</title>
     <link rel="stylesheet" href="css/styles.css" />
-    <link rel="stylesheet" href="css/product.css" />
+    <link rel="stylesheet" href="css/cart.css" />
   </head>
   <body>
     <header>
@@ -19,7 +19,7 @@
     <main>
       <h2>Cesta de Compras</h2>
       <div id="cart-items"></div>
-      <p>Total: <span id="total-price">0 €</span></p>
+      <p class="total-price">Total: <span id="total-price">0 €</span></p>
     </main>
 
     <script>
@@ -37,7 +37,7 @@
           itemElement.classList.add("cart-item");
           itemElement.innerHTML = `
           <img src="${item.imageUrl}" alt="${item.name}" />
-          <div>
+          <div class="info">
             <h4>${item.name}</h4>
             <p>Cantidad: ${item.quantity}</p>
             <p>Precio: ${item.price} €</p>
