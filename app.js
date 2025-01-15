@@ -7,15 +7,17 @@ const path = require("path");
 const bcrypt = require("bcrypt");
 const session = require("express-session");
 
+require("dotenv").config();
+
 const app = express();
 
-// Configuración de express-session
+// Configuración para guardar el inicio de sesión
 app.use(
   session({
-    secret: "EstoEsUnCodigoSecreto", // Cambia esta clave en producción
+    secret: "EstoEsUnCodigoSecreto",
     resave: true,
     saveUninitialized: true,
-    cookie: { maxAge: 1000 * 60 * 60 * 24 }, // 1 día
+    cookie: { maxAge: 1000 * 60 * 60 * 24 }, // 1 día caduca la cookie
   })
 );
 
@@ -25,27 +27,26 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Conexión a MongoDB
 mongoose
-  .connect("mongodb+srv://Trabajo:Trabajo@cluster0.1ftbn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+  .connect(process.env.MONGODB)
   .then(() => console.log("Conectado a MongoDB"))
   .catch((err) => console.error("Error al conectar a MongoDB:", err));
 
-// Ruta para crear un nuevo usuario (registro)
+// Ruta para el registro
 app.post("/auth/signup", async (req, res) => {
   const { username, email, password } = req.body;
 
-  const existingUser = await User.findOne({ email }); // Verificando que el email no esté en uso
+  const existingUser = await User.findOne({ email: email }); // Verificando que el email no esté en uso
 
-  if (existingUser) {
-    return res.status(400).json({ message: "El correo electrónico ya está en uso." });
-  }
+  if (existingUser) return res.status(400).json({ message: "El correo electrónico ya está en uso." });
 
   // Encriptar la contraseña
   const hashedPassword = await bcrypt.hash(password, 10);
 
+  //Crear el usuario
   const newUser = new User({
-    username, // Solo si necesitas el campo username
+    username,
     email,
-    password: hashedPassword, // Guardando la contraseña encriptada
+    password: hashedPassword,
   });
 
   await newUser.save();
@@ -56,36 +57,23 @@ app.post("/auth/signup", async (req, res) => {
 // Ruta para iniciar sesión
 app.post("/auth/login", async (req, res) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email: email }); // Buscando por email
+  const user = await User.findOne({ email: email });
 
-  if (!user) {
-    return res.status(401).json({ message: "Credenciales incorrectas" });
-  }
+  if (!user) return res.status(401).json({ message: "Credenciales incorrectas" });
 
   const validPassword = await bcrypt.compare(password, user.password);
 
-  if (!validPassword) {
-    return res.status(401).json({ message: "Credenciales incorrectas" });
-  }
+  if (!validPassword) return res.status(401).json({ message: "Credenciales incorrectas" });
 
-  req.session.user = { username: user.username, role: user.role }; // Almacenar en sesión
+ // Almacenar la sesión
+  req.session.user = { username: user.username, role: user.role };
   res.json({ role: user.role });
-});
-
-// Ruta para verificar si el usuario está autenticado
-app.get("/auth/session", (req, res) => {
-  if (req.session.user) {
-    return res.json(req.session.user);
-  }
-  res.status(401).json({ message: "No autenticado" });
 });
 
 // Ruta para cerrar sesión
 app.post("/auth/logout", (req, res) => {
   req.session.destroy((err) => {
-    if (err) {
-      return res.status(500).json({ message: "Error al cerrar sesión" });
-    }
+    if (err) return res.status(500).json({ message: "Error al cerrar sesión" });
     res.status(200).json({ message: "Sesión cerrada" });
   });
 });
@@ -113,7 +101,7 @@ app.get("/auth/status", (req, res) => {
   }
 });
 
-// Ruta para cerrar sesión (logout)
+// Ruta para cerrar sesión
 app.get("/auth/logout", (req, res) => {
   req.session.destroy((err) => {
     if (err) {
@@ -123,7 +111,6 @@ app.get("/auth/logout", (req, res) => {
   });
 });
 
-
 app.delete("/api/products/:id", async (req, res) => {
   const { id } = req.params;
 
@@ -132,11 +119,8 @@ app.delete("/api/products/:id", async (req, res) => {
 });
 
 // Ruta para obtener los productos en la cesta
-// Ruta para obtener los productos en la cesta
 app.get("/cart", (req, res) => {
-  if (!req.session.cart) {
-    return res.status(200).json([]); // Si no hay productos en la cesta, devolver un array vacío
-  }
+  if (!req.session.cart) return res.status(200).json([]); // Si no hay productos en la cesta, devuelve nada
 
   // Obtener detalles completos de los productos en la cesta (incluyendo imagen y nombre)
   const cartItems = req.session.cart.map(item => {
@@ -149,25 +133,18 @@ app.get("/cart", (req, res) => {
   res.status(200).json(cartItems);
 });
 
-
-
 // Ruta para agregar un producto a la cesta
-
 app.post("/cart/add", async (req, res) => {
-  const { productId } = req.body; // Asegúrate de que el frontend pase el id del producto
+  const { productId } = req.body;
   const user = req.session.user;
 
-  if (!user) {
-    return res.status(401).json({ message: "Debes iniciar sesión para agregar productos a la cesta." });
-  }
+  if (!user) return res.status(401).json({ message: "Debes iniciar sesión para agregar productos a la cesta." });
 
   try {
     // Buscar el producto en la base de datos
     const product = await Product.findById(productId);
 
-    if (!product) {
-      return res.status(404).json({ message: "Producto no encontrado" });
-    }
+    if (!product) return res.status(404).json({ message: "Producto no encontrado" });
 
     // Si la cesta no existe, crear una nueva
     if (!req.session.cart) {

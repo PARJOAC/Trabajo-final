@@ -5,13 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin - PCCom</title>
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <link rel="stylesheet" href="css/product.css">
 </head>
 <body>
   <header>
     <h1>PCCom</h1>
     <nav>
       <a href="index.html">Inicio</a>
-      <a href="login.html">Salir</a>
+      <a href="cart.html">Cesta</a>
+      <a href="login.html">Login</a>
     </nav>
   </header>
   <main>
@@ -28,11 +31,11 @@
       <button type="submit">Añadir Producto</button>
     </form>
     <h3>Productos Actuales</h3>
-    <div id="product-list"></div>
+    <div id="product-container"></div>
   </main>
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
-      const productList = document.getElementById("product-list");
+      const productList = document.getElementById("product-container");
 
       // Obtener los productos desde la API
       const response = await fetch("/api/products");

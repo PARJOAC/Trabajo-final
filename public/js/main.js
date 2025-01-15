@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  const productList = document.getElementById("product-list");
+  const productContainer = document.getElementById("product-container");
 
   // Obtener los productos desde la API
   const response = await fetch("/api/products");
@@ -11,12 +11,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     productDiv.className = "product";
     productDiv.innerHTML = `
       <img src="${product.imageUrl}" alt="${product.name}">
-      <h3>${product.name}</h3>
-      <p class="price">${product.price} €</p>
-      <p>${product.description}</p>
-      <button onclick="addToCart('${product._id}')">Añadir a la cesta</button>
+      <div class="info">
+        <h2>${product.name}</h2>
+        <p>${product.description}</p>
+        <p class="price">${product.price} €</p>
+        <button onclick="addToCart('${product._id}')">Añadir a la cesta</button>
+      </div>
     `;
-    productList.appendChild(productDiv);
+    productContainer.appendChild(productDiv);
   });
 });
 

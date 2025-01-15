@@ -3,22 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Producto</title>
+  <title id="title"></title>
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/product.css">
 </head>
 <body>
-  <div id="product-container">
-    <!-- Aquí se cargarán los detalles del producto -->
-  </div>
+  <header>
+    <h1>PCCom</h1>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="cart.html">Cesta</a>
+      <a href="login.html">Login</a>
+    </nav>
+  </header>
+
+  <div id="product-container"></div>
 
   <script>
     // Obtener el ID del producto desde la URL
     const productId = new URLSearchParams(window.location.search).get("id");
-
+    
     // Cargar el producto
     async function loadProduct() {
       const response = await fetch(`/api/products/${productId}`);
       const product = await response.json();
+      document.getElementById("title").innerHTML = `Producto ${product.name}`; 
 
       document.getElementById("product-container").innerHTML = `
         <h1>${product.name}</h1>

@@ -1,0 +1,62 @@
+/* Estilo del formulario de login */
+#login-container {
+  max-width: 400px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 8px;
+  padding: 40px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+#login-container h1 {
+  text-align: center;
+  font-size: 2rem;
+  color: #007bff;
+  margin-bottom: 20px;
+}
+
+#login-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+#login-container label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+#login-container input {
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+#login-container input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+#login-container button {
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+#login-container button:hover {
+  background-color: #0056b3;
+}
+
+#login-container .error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+  display: none;
+}
