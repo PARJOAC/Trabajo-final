@@ -11,10 +11,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     productDiv.className = "product";
     function truncateString(str, maxLength = 100) {
       if (str.length > maxLength) {
-          return str.slice(0, maxLength) + "...";
+        return str.slice(0, maxLength) + "...";
       }
       return str;
-  }
+    }
     productDiv.innerHTML = `
       <img src="${product.imageUrl}" alt="${product.name}">
       <div class="info">
