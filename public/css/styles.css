@@ -4,7 +4,7 @@
   margin: 0;
   padding: 0;
 }
-
+/* Eliminar márgenes y rellenos predeterminados del body y html */
 body {
   font-family: 'Arial', sans-serif;
   background-color: #f9f9f9;
@@ -26,14 +26,29 @@ header {
   top: 0;
   left: 0;
   width: 100%;
+  height: 80px;
   background-color: #007bff;
   color: white;
   padding: 15px 30px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  z-index: 10;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10; /* Asegura que esté por encima del contenido */
+}
+
+header img {
+  width: 70px;
+  margin-right: 3px;
+}
+
+header h1 {
+  padding-top: 20px;
+  font-size: 2rem;
+  color: white;
+}
+
+header nav {
+  margin-left: auto;
 }
 
 header nav a {
@@ -45,19 +60,16 @@ header nav a {
   transition: color 0.3s ease;
 }
 
-header nav a:hover {
-  color: #f59d56;
-}
-
 /* Estilo del main */
 main {
-  padding: 60px 20px 20px;
+  padding-left: 15px;
+  padding-top: 30px;
 }
 
 h1 {
   font-size: 2rem;
   color: white;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 h2, h3 {
@@ -104,10 +116,6 @@ button:disabled {
       width: 100%; /* 1 producto por fila */
   }
 }
-
-
-
-
 
 /* Estilo del footer */
 footer {
