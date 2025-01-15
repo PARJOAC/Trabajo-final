@@ -42,6 +42,13 @@
         const response = await fetch("/api/products");
         const products = await response.json();
 
+        function descripcionCorta(str, maxLength = 100) {
+          if (str.length > maxLength) {
+            return str.slice(0, maxLength) + "...";
+          }
+          return str;
+        }
+
         // Renderizar los productos
         products.forEach((product) => {
           const productDiv = document.createElement("div");
@@ -50,7 +57,7 @@
           <h3>${product.name}</h3>
           <img src="${product.imageUrl}" alt="${product.name}" style="max-width: 150px; border-radius: 8px; margin: 10px 0;">
           <p>Precio: ${product.price} €</p>
-          <p>${product.description}</p>
+          <p>${descripcionCorta(product.description)}</p>
           <button onclick="deleteProduct('${product._id}')">Eliminar</button>
         `;
           productList.appendChild(productDiv);
@@ -83,7 +90,10 @@
     </script>
 
     <footer>
-      <p>&copy; 2025 PCCom. Todos los derechos reservados. Pablo Arjonilla Cuadrado</p>
+      <p>
+        &copy; 2025 PCCom. Todos los derechos reservados. Pablo Arjonilla
+        Cuadrado
+      </p>
     </footer>
   </body>
 </html>

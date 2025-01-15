@@ -6,7 +6,7 @@
     <title>Cesta - PCCom</title>
     <link rel="icon" type="image/png" href="images/logo.png" />
     <link rel="stylesheet" href="css/styles.css" />
-    <link rel="stylesheet" href="css/cart.css" />
+    <link rel="stylesheet" href="css/product.css" />
   </head>
   <body>
     <header>
@@ -20,7 +20,7 @@
     </header>
     <main>
       <h2>Cesta de Compras</h2>
-      <div id="cart-items"></div>
+      <div id="product-container"></div>
       <p class="total-price">Total: <span id="total-price">0 €</span></p>
     </main>
 
@@ -30,13 +30,13 @@
         const response = await fetch("/cart");
         const cart = await response.json();
 
-        const cartItemsDiv = document.getElementById("cart-items");
+        const cartItemsDiv = document.getElementById("product-container");
         let totalPrice = 0;
 
         // Mostrar cada producto en la cesta
         cart.forEach((item) => {
           const itemElement = document.createElement("div");
-          itemElement.classList.add("cart-item");
+          itemElement.classList.add("product");
           itemElement.innerHTML = `
           <img src="${item.imageUrl}" alt="${item.name}" />
           <div class="info">

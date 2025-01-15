@@ -31,7 +31,7 @@
         const product = await response.json();
         document.getElementById("title").innerHTML = `Producto ${product.name}`;
 
-        document.getElementById("product-container").innerHTML = `
+        document.getElementById("product").innerHTML = `
         <h1>${product.name}</h1>
         <img src="${product.imageUrl}" alt="${product.name}">
         <p>${product.description}</p>

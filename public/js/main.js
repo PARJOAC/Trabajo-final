@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   products.forEach((product) => {
     const productDiv = document.createElement("div");
     productDiv.className = "product";
-    function truncateString(str, maxLength = 100) {
+    function descripcionCorta(str, maxLength = 100) {
       if (str.length > maxLength) {
         return str.slice(0, maxLength) + "...";
       }
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       <img src="${product.imageUrl}" alt="${product.name}">
       <div class="info">
         <h2>${product.name}</h2>
-        <p>${truncateString(product.description)}</p>
+        <p>${descripcionCorta(product.description)}</p>
         <p class="price">${product.price} €</p>
         <button onclick="addToCart('${product._id}')">Añadir a la cesta</button>
       </div>
