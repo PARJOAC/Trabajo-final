@@ -14,7 +14,7 @@
   border-radius: 8px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  width: calc(33.333% - 40px); /* 33.333% ancho menos gap y margen */
+  width: calc(33.333% - 40px);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
