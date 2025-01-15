@@ -17,7 +17,7 @@ app.use(
     secret: "EstoEsUnCodigoSecreto",
     resave: true,
     saveUninitialized: true,
-    cookie: { maxAge: 1000 * 60 * 60 * 24 }, // 1 día caduca la cookie
+    cookie: { maxAge: 24 * 60 * 60 * 1000 }, // en 1 día caduca la cookie
   })
 );
 
@@ -171,10 +171,8 @@ app.post("/cart/add", async (req, res) => {
   }
 });
 
-
-
 // Iniciar el servidor
 const PORT = 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`Servidor iniciado en http://localhost:${PORT}`);
 });

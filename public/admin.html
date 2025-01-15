@@ -1,83 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin - PCCom</title>
-  <link rel="icon" type="image/png" href="images/logo.png">
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/product.css">
-  <link rel="stylesheet" href="css/admin.css">
-</head>
-<body>
-  <header>
-    <img src="images/logo.png" alt="Logo PCCom">
-    <h1>PCCom</h1>
-    <nav>
-      <a href="index.html">Inicio</a>
-      <a href="login.html">Salir</a>
-    </nav>
-  </header>
-  <main>
-    <h2>Panel de Administración</h2>
-    <form id="add-product-form">
-      <label for="name">Nombre:</label>
-      <input type="text" id="name" name="name" required>
-      <label for="price">Precio:</label>
-      <input type="number" id="price" name="price" required>
-      <label for="description">Descripción:</label>
-      <textarea id="description" name="description"></textarea>
-      <label for="imageUrl">URL de la Imagen:</label>
-      <input type="url" id="imageUrl" name="imageUrl" required>
-      <button type="submit">Añadir Producto</button>
-    </form>
-    <h3>Productos Actuales</h3>
-    <div id="product-container"></div>
-  </main>
-  <script>
-    document.addEventListener("DOMContentLoaded", async () => {
-      const productList = document.getElementById("product-container");
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - PCCom</title>
+    <link rel="icon" type="image/png" href="images/logo.png" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/product.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+  </head>
+  <body>
+    <header>
+      <img src="images/logo.png" alt="Logo PCCom" />
+      <h1>PCCom</h1>
+      <nav>
+        <a href="index.html">Inicio</a>
+        <a href="login.html">Salir</a>
+      </nav>
+    </header>
+    <main>
+      <h2>Panel de Administración</h2>
+      <form id="add-product-form">
+        <label for="name">Nombre:</label>
+        <input type="text" id="name" name="name" required />
+        <label for="price">Precio:</label>
+        <input type="number" id="price" name="price" required />
+        <label for="description">Descripción:</label>
+        <textarea id="description" name="description"></textarea>
+        <label for="imageUrl">URL de la Imagen:</label>
+        <input type="url" id="imageUrl" name="imageUrl" required />
+        <button type="submit">Añadir Producto</button>
+      </form>
+      <h3>Productos Actuales</h3>
+      <div id="product-container"></div>
+    </main>
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        const productList = document.getElementById("product-container");
 
-      // Obtener los productos desde la API
-      const response = await fetch("/api/products");
-      const products = await response.json();
+        // Obtener los productos desde la API
+        const response = await fetch("/api/products");
+        const products = await response.json();
 
-      // Renderizar los productos
-      products.forEach((product) => {
-        const productDiv = document.createElement("div");
-        productDiv.className = "product";
-        productDiv.innerHTML = `
+        // Renderizar los productos
+        products.forEach((product) => {
+          const productDiv = document.createElement("div");
+          productDiv.className = "product";
+          productDiv.innerHTML = `
           <h3>${product.name}</h3>
           <img src="${product.imageUrl}" alt="${product.name}" style="max-width: 150px; border-radius: 8px; margin: 10px 0;">
           <p>Precio: ${product.price} €</p>
           <p>${product.description}</p>
           <button onclick="deleteProduct('${product._id}')">Eliminar</button>
         `;
-        productList.appendChild(productDiv);
-      });
-    });
-
-    document.getElementById("add-product-form").addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const name = document.getElementById("name").value;
-      const price = document.getElementById("price").value;
-      const description = document.getElementById("description").value;
-      const imageUrl = document.getElementById("imageUrl").value;
-
-      await fetch("/api/products", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, price, description, imageUrl }),
+          productList.appendChild(productDiv);
+        });
       });
 
-      location.reload();
-    });
+      document
+        .getElementById("add-product-form")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
 
-    async function deleteProduct(productId) {
-      await fetch(`/api/products/${productId}`, { method: "DELETE" });
-      location.reload();
-    }
-  </script>
-</body>
+          const name = document.getElementById("name").value;
+          const price = document.getElementById("price").value;
+          const description = document.getElementById("description").value;
+          const imageUrl = document.getElementById("imageUrl").value;
+
+          await fetch("/api/products", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, price, description, imageUrl }),
+          });
+
+          location.reload();
+        });
+
+      async function deleteProduct(productId) {
+        await fetch(`/api/products/${productId}`, { method: "DELETE" });
+        location.reload();
+      }
+    </script>
+
+    <footer>
+      <p>&copy; 2025 PCCom. Todos los derechos reservados. Pablo Arjonilla Cuadrado</p>
+    </footer>
+  </body>
 </html>

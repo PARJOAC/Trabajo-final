@@ -98,6 +98,17 @@ button:disabled {
   cursor: not-allowed;
 }
 
+/* Estilo del footer */
+footer {
+  text-align: center;
+  padding: 15px 0;
+  background-color: #007bff;
+  color: white;
+  width: 100%;
+  bottom: 0;
+  font-size: 14px;
+}
+
 /* Responsividad */
 @media (max-width: 1024px) {
   .product {
@@ -115,16 +126,4 @@ button:disabled {
   .product {
       width: 100%; /* 1 producto por fila */
   }
-}
-
-/* Estilo del footer */
-footer {
-  text-align: center;
-  padding: 15px 0;
-  background-color: #007bff;
-  color: white;
-  position: fixed;
-  width: 100%;
-  bottom: 0;
-  font-size: 14px;
 }

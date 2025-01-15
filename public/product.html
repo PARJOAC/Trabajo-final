@@ -1,45 +1,49 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="title"></title>
-  <link rel="icon" type="image/png" href="images/logo.png">
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/product.css">
-</head>
-<body>
-  <header>
-    <img src="images/logo.png" alt="Logo PCCom">
-    <h1>PCCom</h1>
-    <nav>
-      <a href="index.html">Inicio</a>
-      <a href="cart.html">Cesta</a>
-      <a href="login.html">Login</a>
-    </nav>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title id="title"></title>
+    <link rel="icon" type="image/png" href="images/logo.png" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/product.css" />
+  </head>
+  <body>
+    <header>
+      <img src="images/logo.png" alt="Logo PCCom" />
+      <h1>PCCom</h1>
+      <nav>
+        <a href="index.html">Inicio</a>
+        <a href="cart.html">Cesta</a>
+        <a href="login.html">Login</a>
+      </nav>
+    </header>
 
-  <div id="product-container"></div>
+    <div id="product-container"></div>
 
-  <script>
-    // Obtener el ID del producto desde la URL
-    const productId = new URLSearchParams(window.location.search).get("id");
-    
-    // Cargar el producto
-    async function loadProduct() {
-      const response = await fetch(`/api/products/${productId}`);
-      const product = await response.json();
-      document.getElementById("title").innerHTML = `Producto ${product.name}`; 
+    <script>
+      // Obtener el ID del producto desde la URL
+      const productId = new URLSearchParams(window.location.search).get("id");
 
-      document.getElementById("product-container").innerHTML = `
+      // Cargar el producto
+      async function loadProduct() {
+        const response = await fetch(`/api/products/${productId}`);
+        const product = await response.json();
+        document.getElementById("title").innerHTML = `Producto ${product.name}`;
+
+        document.getElementById("product-container").innerHTML = `
         <h1>${product.name}</h1>
         <img src="${product.imageUrl}" alt="${product.name}">
         <p>${product.description}</p>
         <p><strong>Precio:</strong> $${product.price}</p>
       `;
-    }
+      }
 
-    loadProduct();
-  </script>
-</body>
+      loadProduct();
+    </script>
+
+    <footer>
+      <p>&copy; 2025 PCCom. Todos los derechos reservados. Pablo Arjonilla Cuadrado</p>
+    </footer>
+  </body>
 </html>

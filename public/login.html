@@ -1,129 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PCCom</title>
-  <link rel="icon" type="image/png" href="images/logo.png">
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/login.css">
-</head>
-<body>
-  <header>
-    <img src="images/logo.png" alt="Logo PCCom">
-    <h1>PCCom</h1>
-    <nav>
-      <a href="index.html">Inicio</a>
-      <a href="cart.html">Cesta</a>
-      <a href="login.html">Login</a>
-    </nav>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PCCom</title>
+    <link rel="icon" type="image/png" href="images/logo.png" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/login.css" />
+  </head>
+  <body>
+    <header>
+      <img src="images/logo.png" alt="Logo PCCom" />
+      <h1>PCCom</h1>
+      <nav>
+        <a href="index.html">Inicio</a>
+        <a href="cart.html">Cesta</a>
+        <a href="login.html">Login</a>
+      </nav>
+    </header>
 
-  <main>
-    <!-- Formulario de inicio de sesión -->
-    <div class="form-box" id="login-form-box">
-      <h2>Iniciar sesión</h2>
-      <form id="login-form">
-        <label for="login-email">Correo electrónico:</label>
-        <input type="email" id="login-email" name="email" required>
+    <main>
+      <!-- Formulario de inicio de sesión -->
+      <div class="form-box" id="login-form-box">
+        <h2>Iniciar sesión</h2>
+        <form id="login-form">
+          <label for="login-email">Correo electrónico:</label>
+          <input type="email" id="login-email" name="email" required />
 
-        <label for="login-password">Contraseña:</label>
-        <input type="password" id="login-password" name="password" required>
+          <label for="login-password">Contraseña:</label>
+          <input type="password" id="login-password" name="password" required />
 
-        <button type="submit">Iniciar sesión</button>
-      </form>
-      <div class="toggle-link">
-        <p>¿No tienes cuenta? <a href="#" id="show-signup">Crear cuenta</a></p>
+          <button type="submit">Iniciar sesión</button>
+        </form>
+        <div class="toggle-link">
+          <p>
+            ¿No tienes cuenta? <a href="#" id="show-signup">Crear cuenta</a>
+          </p>
+        </div>
       </div>
-    </div>
 
-    <!-- Formulario de creación de cuenta -->
-    <div class="form-box" id="signup-form-box" style="display: none;">
-      <h2>Crear cuenta</h2>
-      <form id="signup-form">
-        <label for="signup-username">Usuario:</label>
-        <input type="text" id="signup-username" name="username" required>
+      <!-- Formulario de creación de cuenta -->
+      <div class="form-box" id="signup-form-box" style="display: none">
+        <h2>Crear cuenta</h2>
+        <form id="signup-form">
+          <label for="signup-username">Usuario:</label>
+          <input type="text" id="signup-username" name="username" required />
 
-        <label for="signup-email">Correo electrónico:</label>
-        <input type="email" id="signup-email" name="email" required>
+          <label for="signup-email">Correo electrónico:</label>
+          <input type="email" id="signup-email" name="email" required />
 
-        <label for="signup-password">Contraseña:</label>
-        <input type="password" id="signup-password" name="password" required>
+          <label for="signup-password">Contraseña:</label>
+          <input
+            type="password"
+            id="signup-password"
+            name="password"
+            required
+          />
 
-        <label for="signup-confirm-password">Confirmar Contraseña:</label>
-        <input type="password" id="signup-confirm-password" name="confirm-password" required>
+          <label for="signup-confirm-password">Confirmar Contraseña:</label>
+          <input
+            type="password"
+            id="signup-confirm-password"
+            name="confirm-password"
+            required
+          />
 
-        <button type="submit">Crear cuenta</button>
-      </form>
-      <div class="toggle-link">
-        <p>¿Ya tienes cuenta? <a href="#" id="show-login">Iniciar sesión</a></p>
+          <button type="submit">Crear cuenta</button>
+        </form>
+        <div class="toggle-link">
+          <p>
+            ¿Ya tienes cuenta? <a href="#" id="show-login">Iniciar sesión</a>
+          </p>
+        </div>
       </div>
-    </div>
-  </main>
+    </main>
 
-  <script>
-    // Mostrar el formulario de login
-    document.getElementById("show-login").addEventListener("click", function() {
-      document.getElementById("signup-form-box").style.display = "none";
-      document.getElementById("login-form-box").style.display = "block";
-    });
+    <script>
+      // Mostrar el formulario de login
+      document
+        .getElementById("show-login")
+        .addEventListener("click", function () {
+          document.getElementById("signup-form-box").style.display = "none";
+          document.getElementById("login-form-box").style.display = "block";
+        });
 
-    // Mostrar el formulario de signup
-    document.getElementById("show-signup").addEventListener("click", function() {
-      document.getElementById("login-form-box").style.display = "none";
-      document.getElementById("signup-form-box").style.display = "block";
-    });
+      // Mostrar el formulario de signup
+      document
+        .getElementById("show-signup")
+        .addEventListener("click", function () {
+          document.getElementById("login-form-box").style.display = "none";
+          document.getElementById("signup-form-box").style.display = "block";
+        });
 
-    // Iniciar sesión
-    document.getElementById("login-form").addEventListener("submit", async function(e) {
-      e.preventDefault();
+      // Iniciar sesión
+      document
+        .getElementById("login-form")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
 
-      const email = document.getElementById("login-email").value;
-      const password = document.getElementById("login-password").value;
+          const email = document.getElementById("login-email").value;
+          const password = document.getElementById("login-password").value;
 
-      const response = await fetch("/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+          const response = await fetch("/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+          });
 
-      if (response.ok) {
-        const { role } = await response.json();
-        if (role === "admin") window.location.href = "admin.html";
-        else window.location.href = "index.html";
-      } else {
-        alert("Credenciales incorrectas");
-      }
-    });
+          if (response.ok) {
+            const { role } = await response.json();
+            if (role === "admin") window.location.href = "admin.html";
+            else window.location.href = "index.html";
+          } else {
+            alert("Credenciales incorrectas");
+          }
+        });
 
-    // Crear cuenta
-    document.getElementById("signup-form").addEventListener("submit", async function(e) {
-      e.preventDefault();
+      // Crear cuenta
+      document
+        .getElementById("signup-form")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
 
-      const username = document.getElementById("signup-username").value;
-      const email = document.getElementById("signup-email").value;
-      const password = document.getElementById("signup-password").value;
-      const confirmPassword = document.getElementById("signup-confirm-password").value;
+          const username = document.getElementById("signup-username").value;
+          const email = document.getElementById("signup-email").value;
+          const password = document.getElementById("signup-password").value;
+          const confirmPassword = document.getElementById(
+            "signup-confirm-password"
+          ).value;
 
-      if (password !== confirmPassword) {
-        alert("Las contraseñas no coinciden");
-        return;
-      }
+          if (password !== confirmPassword) {
+            alert("Las contraseñas no coinciden");
+            return;
+          }
 
-      const response = await fetch("/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, email, password }),
-      });
+          const response = await fetch("/auth/signup", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, email, password }),
+          });
 
-      if (response.ok) {
-        alert("Cuenta creada con éxito. Puedes iniciar sesión.");
-        document.getElementById("signup-form-box").style.display = "none";
-        document.getElementById("login-form-box").style.display = "block";
-      } else {
-        alert("Error al crear la cuenta. Intenta con otro correo electrónico.");
-      }
-    });
-  </script>
-</body>
+          if (response.ok) {
+            alert("Cuenta creada con éxito. Puedes iniciar sesión.");
+            document.getElementById("signup-form-box").style.display = "none";
+            document.getElementById("login-form-box").style.display = "block";
+          } else {
+            alert(
+              "Error al crear la cuenta. Intenta con otro correo electrónico."
+            );
+          }
+        });
+    </script>
+    <footer>
+      <p>&copy; 2025 PCCom. Todos los derechos reservados. Pablo Arjonilla Cuadrado</p>
+    </footer>
+  </body>
 </html>
