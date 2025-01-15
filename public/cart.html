@@ -1,41 +1,41 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cesta - PCCom</title>
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/product.css">
-</head>
-<body>
-  <header>
-    <h1>PCCom</h1>
-    <nav>
-      <a href="index.html">Inicio</a>
-      <a href="cart.html">Cesta</a>
-      <a href="login.html">Login</a>
-    </nav>
-  </header>
-  <main>
-    <h2>Cesta de Compras</h2>
-    <div id="cart-items"></div>
-    <p>Total: <span id="total-price">0 €</span></p>
-  </main>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cesta - PCCom</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/product.css" />
+  </head>
+  <body>
+    <header>
+      <h1>PCCom</h1>
+      <nav>
+        <a href="index.html">Inicio</a>
+        <a href="cart.html">Cesta</a>
+        <a href="login.html">Login</a>
+      </nav>
+    </header>
+    <main>
+      <h2>Cesta de Compras</h2>
+      <div id="cart-items"></div>
+      <p>Total: <span id="total-price">0 €</span></p>
+    </main>
 
-  <script>
-    // Función para cargar los productos de la cesta
-    async function loadCart() {
-      const response = await fetch("/cart");
-      const cart = await response.json();
+    <script>
+      // Función para cargar los productos de la cesta
+      async function loadCart() {
+        const response = await fetch("/cart");
+        const cart = await response.json();
 
-      const cartItemsDiv = document.getElementById("cart-items");
-      let totalPrice = 0;
+        const cartItemsDiv = document.getElementById("cart-items");
+        let totalPrice = 0;
 
-      // Mostrar cada producto en la cesta
-      cart.forEach(item => {
-        const itemElement = document.createElement("div");
-        itemElement.classList.add("cart-item");
-        itemElement.innerHTML = `
+        // Mostrar cada producto en la cesta
+        cart.forEach((item) => {
+          const itemElement = document.createElement("div");
+          itemElement.classList.add("cart-item");
+          itemElement.innerHTML = `
           <img src="${item.imageUrl}" alt="${item.name}" />
           <div>
             <h4>${item.name}</h4>
@@ -44,16 +44,16 @@
             <p>Subtotal: ${item.quantity * item.price} €</p>
           </div>
         `;
-        cartItemsDiv.appendChild(itemElement);
-        totalPrice += item.quantity * item.price;
-      });
+          cartItemsDiv.appendChild(itemElement);
+          totalPrice += item.quantity * item.price;
+        });
 
-      // Mostrar el total
-      document.getElementById("total-price").textContent = totalPrice + " €";
-    }
+        // Mostrar el total
+        document.getElementById("total-price").textContent = totalPrice + " €";
+      }
 
-    // Cargar la cesta cuando se cargue la página
-    loadCart();
-  </script>
-</body>
+      // Cargar la cesta cuando se cargue la página
+      loadCart();
+    </script>
+  </body>
 </html>
